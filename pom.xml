@@ -12,6 +12,105 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!-- versions -->
+        <test_auto.pay_library.version>1.3.0</test_auto.pay_library.version>
+        <cucumber-testng.version>7.14.0</cucumber-testng.version>
+        <cucumber-java.version>7.14.1</cucumber-java.version>
+        <lombok.version>1.18.30</lombok.version>
+        <aspectjweaver.version>1.9.22</aspectjweaver.version>
+        <maven.surefire.version>2.22.2</maven.surefire.version>
+        <wiremock.version>3.0.1</wiremock.version>
+        <test_auto.core_integrationapi_library.version>1.1.1</test_auto.core_integrationapi_library.version>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>uk.singular</groupId>
+            <artifactId>test_auto.core_integrationapi_library</artifactId>
+            <version>${test_auto.core_integrationapi_library.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>uk.singular</groupId>
+            <artifactId>test_auto.pay_library</artifactId>
+            <version>${test_auto.pay_library.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>${cucumber-java.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-testng</artifactId>
+            <version>${cucumber-testng.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId> org.wiremock</groupId>
+            <artifactId>wiremock</artifactId>
+            <version>${wiremock.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ngrok</groupId>
+            <artifactId>ngrok-java</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxws</artifactId>
+            <version>4.0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-codegen-plugin</artifactId>
+            <version>4.0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.xml.ws</groupId>
+            <artifactId>jakarta.xml.ws-api</artifactId>
+            <version>4.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.xml.ws</groupId>
+            <artifactId>rt</artifactId>
+            <version>4.0.1</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>app.getxray</groupId>
+                <artifactId>xray-maven-plugin</artifactId>
+                <version>0.7.3</version>
+                <configuration>
+                    <cloud>false</cloud>
+                    <jiraBaseUrl>https://jira.pyrsoftware.ca/jira</jiraBaseUrl>
+                    <projectKey>SNGPAY</projectKey>
+                    <jiraToken>NjEzNjc4MDQ0MzA4OgDWBaHsPKeMUqa/kBRx7wc/zq/8</jiraToken>
+                    <reportFormat>cucumber</reportFormat>
+                    <reportFile>target/*-report.json</reportFile>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.3.1</version>
+                <configuration>
+                    <includes>
+                        <include>test_runner/AllTestRunner.java</include>
+                    </includes>
+                    <testFailureIgnore>false</testFailureIgnore>
+                    <forkCount>1</forkCount>
+                    <reuseForks>true</reuseForks>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
