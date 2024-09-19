@@ -7,6 +7,6 @@ public class Hooks {
     public static void depositToCreatePayAccount() {
         // implement code block here to make full success deposit to create new pay account in system
 
-        throw new RuntimeException("You do it above and remove this code line!");
+        throw new RuntimeException("You should do it above and remove this code line!");
     }
 }
