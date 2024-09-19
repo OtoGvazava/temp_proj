@@ -6,7 +6,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.testng.Assert;
 
-public class CoreApiLoginStepDefs extends BaseStepDefs {
+public class CoreApiLoginStepDefs extends BaseSteps {
     public static CoreApiWebsiteServiceRequest coreApiWebsiteServiceRequest;
 
     static {

@@ -5,7 +5,7 @@ import io.cucumber.testng.CucumberOptions;
 
 
 @CucumberOptions(
-        features = {"src/test/java/features/skrill_init_withdraw.feature"},
+        features = {"src/test/java/features/init_withdraw.feature"},
         glue = "step_defs",
         plugin = {"pretty", "json:target/cucumber-report.json"}
 )

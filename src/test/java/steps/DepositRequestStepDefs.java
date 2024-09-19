@@ -9,7 +9,7 @@ import org.testng.asserts.SoftAssert;
 
 import java.util.Arrays;
 
-public class DepositRequestStepDefs extends BaseStepDefs {
+public class DepositRequestStepDefs extends BaseSteps {
     public static DepositRequest request;
     public static DepositRequest.RequestBody requestBody;
 

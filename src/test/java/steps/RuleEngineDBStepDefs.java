@@ -4,7 +4,7 @@ import configuration.Configuration;
 import ge.singular.payment.db.RuleEngineDB;
 import io.cucumber.java.en.And;
 
-public class RuleEngineDBStepDefs extends BaseStepDefs {
+public class RuleEngineDBStepDefs extends BaseSteps {
     private final RuleEngineDB ruleEngineDB;
 
     public RuleEngineDBStepDefs() {

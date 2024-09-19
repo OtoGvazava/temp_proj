@@ -4,7 +4,7 @@ import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
 
 @CucumberOptions(
-        features = {"src/test/java/features/skrill_init_deposit.feature"},
+        features = {"src/test/java/features/init_deposit.feature"},
         glue = "step_defs",
         plugin = {"pretty", "json:target/cucumber-report.json"}
 )

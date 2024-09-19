@@ -8,7 +8,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.testng.Assert;
 
-public class AuthProxyWithdrawStepDefs extends BaseStepDefs {
+public class AuthProxyWithdrawStepDefs extends BaseSteps {
     public static AuthProxyWithdrawRequest request;
     public static WithdrawRequest.RequestBody requestBody;
 

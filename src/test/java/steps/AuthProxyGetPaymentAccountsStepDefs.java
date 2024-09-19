@@ -8,7 +8,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.testng.Assert;
 
-public class AuthProxyGetPaymentAccountsStepDefs extends BaseStepDefs {
+public class AuthProxyGetPaymentAccountsStepDefs extends BaseSteps {
     public static AuthProxyGetPaymentAccountsRequest request;
     public static GetAccountsRequest.RequestBody requestBody;
 

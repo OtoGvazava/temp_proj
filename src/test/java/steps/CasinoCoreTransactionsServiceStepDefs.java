@@ -9,7 +9,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.testng.Assert;
 
-public class CasinoCoreTransactionsServiceStepDefs extends BaseStepDefs {
+public class CasinoCoreTransactionsServiceStepDefs extends BaseSteps {
     private final CasinoCoreTransactions casinoCoreTransactions;
 
     public CasinoCoreTransactionsServiceStepDefs() {
@@ -26,14 +26,14 @@ public class CasinoCoreTransactionsServiceStepDefs extends BaseStepDefs {
 
     @When("send core transaction status change request as approved")
     public void sendChangeTransactionStatusRequestApproved() {
-        var hash = HashGenerator.generateHash(Configuration.SIS_PROVIDER_ID +
+        var hash = HashGenerator.generateHash(Configuration.integrationConfig.getSisProviderId() +
                         CasinoCoreTransactionLookupStepDefs.fetchUsertransactionResponseItem.getTransactions().get(0).getID() +
                         (short) CoreTransactionStatus.Approved.getId() +
                         "test" +
                         "test" +
-                Configuration.SIS_PROVIDER_SECRET);
+                Configuration.integrationConfig.getSisProviderSecret());
 
-        resultCode = casinoCoreTransactions.changeTransactionStatus(Configuration.SIS_PROVIDER_ID.toString(),
+        resultCode = casinoCoreTransactions.changeTransactionStatus(Configuration.integrationConfig.getSisProviderId(),
                 CasinoCoreTransactionLookupStepDefs.fetchUsertransactionResponseItem.getTransactions().get(0).getID(),
                 (short) CoreTransactionStatus.Approved.getId(),
                 "test",
@@ -43,14 +43,14 @@ public class CasinoCoreTransactionsServiceStepDefs extends BaseStepDefs {
 
     @When("send core transaction status change request as rejected")
     public void sendChangeTransactionStatusRequestRejected() {
-        var hash = HashGenerator.generateHash(Configuration.SIS_PROVIDER_ID +
+        var hash = HashGenerator.generateHash(Configuration.integrationConfig.getSisProviderId() +
                 CasinoCoreTransactionLookupStepDefs.fetchUsertransactionResponseItem.getTransactions().get(0).getID() +
                 (short) CoreTransactionStatus.Rejected.getId() +
                 "test" +
                 "test" +
-                Configuration.SIS_PROVIDER_SECRET);
+                Configuration.integrationConfig.getSisProviderSecret());
 
-        resultCode = casinoCoreTransactions.changeTransactionStatus(Configuration.SIS_PROVIDER_ID.toString(),
+        resultCode = casinoCoreTransactions.changeTransactionStatus(Configuration.integrationConfig.getSisProviderId(),
                 CasinoCoreTransactionLookupStepDefs.fetchUsertransactionResponseItem.getTransactions().get(0).getID(),
                 (short) CoreTransactionStatus.Rejected.getId(),
                 "test",

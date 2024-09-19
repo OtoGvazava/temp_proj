@@ -1,18 +1,18 @@
 package steps;
 
 import configuration.Configuration;
-import integration.transactions.StatusChangeRequest;
+import ge.singular.payment.api.rest.integration.StatusChangeRequest;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.testng.asserts.SoftAssert;
 
-public class StatusChangeRequestStepDefs extends BaseStepDefs {
+public class StatusChangeRequestStepDefs extends BaseSteps {
     public static StatusChangeRequest request;
     public static StatusChangeRequest.RequestBody requestBody;
 
     static {
-        request = new StatusChangeRequest(Configuration.INTEGRATION_HOST);
+        request = new StatusChangeRequest(Configuration.integrationConfig.getHost());
     }
 
     @Override
@@ -25,7 +25,7 @@ public class StatusChangeRequestStepDefs extends BaseStepDefs {
     public void getRequestBody() {
         requestBody = StatusChangeRequest.RequestBody.builder()
                 .persistenceTransactionId(WithdrawRequestStepDefs.request.getResponseBody().getData().getTransactionId())
-                .providerId(ConsulStepDefs.consulProperties.getProviderId())
+                .providerId(Configuration.serviceConfig.getProviderId())
                 .coreTransactionId(CasinoCoreTransactionLookupStepDefs.fetchUsertransactionResponseItem.getTransactions().get(0).getID()).build();
     }
 

@@ -2,7 +2,7 @@ package steps;
 
 import configuration.Configuration;
 import ge.singular.common.data.Currency;
-import ge.singular.payment.api.rest.integration.payment.InitWithdrawRequest;
+import ge.singular.payment.api.rest.integration.InitWithdrawRequest;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -11,12 +11,12 @@ import org.testng.asserts.SoftAssert;
 
 import java.util.List;
 
-public class InitWithdrawRequestStepDefs extends BaseStepDefs {
+public class InitWithdrawRequestStepDefs extends BaseSteps {
     public static InitWithdrawRequest request;
     public static InitWithdrawRequest.RequestBody requestBody;
 
     static {
-        request = new InitWithdrawRequest(Configuration.INTEGRATION_HOST);
+        request = new InitWithdrawRequest(Configuration.integrationConfig.getHost());
     }
 
     @Override
@@ -28,56 +28,48 @@ public class InitWithdrawRequestStepDefs extends BaseStepDefs {
     @Given("init withdraw request body")
     public void setRequestBody() {
         requestBody = InitWithdrawRequest.RequestBody.builder()
-                .userId(OtherStepDefs.userId)
-                .amount(10)
-                .currency(Currency.EUR.name())
-                .fee(5)
-                .serviceId(OtherStepDefs.serviceId)
-                .actions(List.of(1))
-                .account(RandomStringUtils.randomAlphabetic(10) + "@gmail.com")
-                .channel(1)
+                .userId(Configuration.integrationConfig.getUserId())
+                .serviceId(Configuration.integrationConfig.getServiceId())
+                // You need to add some other params here
                 .build();
+
+        throw new RuntimeException("You should add additional params above and remove this code line!");
     }
 
     @Given("init withdraw request body action missing")
     public void setRequestBodyActionMissing() {
         requestBody = InitWithdrawRequest.RequestBody.builder()
-                .userId(OtherStepDefs.userId)
-                .amount(10)
-                .currency(Currency.EUR.name())
-                .fee(5)
-                .serviceId(OtherStepDefs.serviceId)
-                .account(RandomStringUtils.randomAlphabetic(10) + "@gmail.com")
-                .channel(1)
+                .userId(Configuration.integrationConfig.getUserId())
+                .serviceId(Configuration.integrationConfig.getServiceId())
+                // You need to add some other params here
                 .build();
+
+        throw new RuntimeException("You should add additional params above and remove this code line!");
     }
 
     @Given("init withdraw request body service_id missing")
     public void setRequestBodyServiceIdMissing() {
         requestBody = InitWithdrawRequest.RequestBody.builder()
-                .userId(OtherStepDefs.userId)
-                .amount(10)
-                .currency(Currency.EUR.name())
-                .fee(5)
-                .actions(List.of(1))
-                .account(RandomStringUtils.randomAlphabetic(10) + "@gmail.com")
-                .channel(1)
+                .userId(Configuration.integrationConfig.getUserId())
+                // You need to add some other params here
                 .build();
+
+        throw new RuntimeException("You should add additional params above and remove this code line!");
     }
 
     @When("send init withdraw request hash is missing")
     public void sendRequestHashMissing() {
-        request.requestWithoutHash(requestBody, Configuration.PROXY_CLIENT_IP).deserialize();
+        request.requestWithoutHash(requestBody, Configuration.commonConfig.getProxyClientIp()).deserialize();
     }
 
     @When("send init withdraw request hash is incorrect")
     public void sendRequestHashIncorrect() {
-        request.request(requestBody,"test", Configuration.PROXY_CLIENT_IP).deserialize();
+        request.request(requestBody,"test", Configuration.commonConfig.getProxyClientIp()).deserialize();
     }
 
     @When("send init withdraw request")
     public void sendRequest() {
-        request.request(Configuration.PROXY_CLIENT_IP, Configuration.PROXY_AUTH_SECRET, requestBody).deserialize();
+        request.request(Configuration.commonConfig.getProxyClientIp(), Configuration.commonConfig.getProxyAuthSecret(), requestBody).deserialize();
     }
 
     @Then("init withdraw response statusCode={int}, code={int}, message={string}")

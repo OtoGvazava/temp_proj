@@ -9,7 +9,7 @@ import ge.singular.payment.data.RuleEngineAction;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 
-public class CoreDBStepDefs extends BaseStepDefs {
+public class CoreDBStepDefs extends BaseSteps {
     private final CoreDB coreDB;
 
     public CoreDBStepDefs() {

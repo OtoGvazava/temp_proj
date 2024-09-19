@@ -1,12 +1,12 @@
 package steps;
 
 import configuration.Configuration;
-import integration.job.WithdrawJobRequest;
+import ge.singular.payment.api.rest.integration.WithdrawJobRequest;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.testng.asserts.SoftAssert;
 
-public class WithdrawJobRequestStepDefs extends BaseStepDefs {
+public class WithdrawJobRequestStepDefs extends BaseSteps {
     public static WithdrawJobRequest request;
 
     @Override
@@ -15,12 +15,12 @@ public class WithdrawJobRequestStepDefs extends BaseStepDefs {
     }
 
     static {
-        request = new WithdrawJobRequest(Configuration.INTEGRATION_HOST);
+        request = new WithdrawJobRequest(Configuration.integrationConfig.getHost());
     }
 
     @When("send withdraw job request")
     public void sendRequest() {
-        request.request(ConsulStepDefs.consulProperties.getJob().getSecret(),
+        request.request(Configuration.serviceConfig.getJob().getSecret(),
                 1000, -1000).deserialize();
     }
 

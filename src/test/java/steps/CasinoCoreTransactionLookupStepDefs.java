@@ -9,7 +9,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.testng.Assert;
 
-public class CasinoCoreTransactionLookupStepDefs extends BaseStepDefs {
+public class CasinoCoreTransactionLookupStepDefs extends BaseSteps {
     private final CasinoCoreTransactionLookup casinoCoreTransactionLookup;
 
     public CasinoCoreTransactionLookupStepDefs() {
@@ -25,25 +25,57 @@ public class CasinoCoreTransactionLookupStepDefs extends BaseStepDefs {
     }
 
     @When("send get core user transactions request for withdraw")
-    public void sendGetCoreUserTransactions() {
-        String hash = HashGenerator.generateHash(Configuration.SIS_PROVIDER_ID.toString() +
-                OtherStepDefs.userId +
-                ConsulStepDefs.consulProperties.getProviderId() +
-                OtherStepDefs.serviceId +
+    public void sendGetCoreUserTransactionsWithdraw() {
+        String hash = HashGenerator.generateHash(Configuration.integrationConfig.getSisProviderId() +
+                Configuration.integrationConfig.getUserId() +
+                Configuration.serviceConfig.getProviderId() +
+                Configuration.integrationConfig.getServiceId() +
                 WithdrawRequestStepDefs.request.getResponseBody().getData().getTransactionId().toString() +
                 false +
                 0 +
                 1 +
-                Configuration.SIS_PROVIDER_SECRET);
+                Configuration.integrationConfig.getSisProviderSecret());
         fetchUsertransactionResponseItem = casinoCoreTransactionLookup.getUsersTransactions(
-                Configuration.SIS_PROVIDER_ID.toString(),
+                Configuration.integrationConfig.getSisProviderId(),
                 null,
-                (long) OtherStepDefs.userId,
+                (long) Configuration.integrationConfig.getUserId(),
                 null,
                 null,
-                ConsulStepDefs.consulProperties.getProviderId(),
-                OtherStepDefs.serviceId,
+                Configuration.serviceConfig.getProviderId(),
+                Configuration.integrationConfig.getServiceId(),
                 WithdrawRequestStepDefs.request.getResponseBody().getData().getTransactionId().toString(),
+                null,
+                null,
+                null,
+                false,
+                null,
+                null,
+                0,
+                1,
+                hash
+        );
+    }
+
+    @When("send get core user transactions request for deposit")
+    public void sendGetCoreUserTransactionsDeposit() {
+        String hash = HashGenerator.generateHash(Configuration.integrationConfig.getSisProviderId() +
+                Configuration.integrationConfig.getUserId() +
+                Configuration.serviceConfig.getProviderId() +
+                Configuration.integrationConfig.getServiceId() +
+                WithdrawRequestStepDefs.request.getResponseBody().getData().getTransactionId().toString() +
+                false +
+                0 +
+                1 +
+                Configuration.integrationConfig.getSisProviderSecret());
+        fetchUsertransactionResponseItem = casinoCoreTransactionLookup.getUsersTransactions(
+                Configuration.integrationConfig.getSisProviderId(),
+                null,
+                (long) Configuration.integrationConfig.getUserId(),
+                null,
+                null,
+                Configuration.serviceConfig.getProviderId(),
+                Configuration.integrationConfig.getServiceId(),
+                DepositRequestStepDefs.request.getResponseBody().getData().getTransactionId().toString(),
                 null,
                 null,
                 null,
@@ -61,32 +93,4 @@ public class CasinoCoreTransactionLookupStepDefs extends BaseStepDefs {
         Assert.assertEquals(fetchUsertransactionResponseItem.getStatusCode(), statusCode,
                 "Incorrect http status code!");
     }
-
-//    @Then("check core user transaction details with fee, status equals to {string}")
-//    public void checkCoreUserTransactionDetailsWithFee(String statusStr) {
-//        CoreTransactionStatus status = CoreTransactionStatus.findByName(statusStr);
-//        SoftAssert softAssert = new SoftAssert();
-//        UsertransactionItem usertransactionItem = fetchUsertransactionResponseItem.getTransactions().get(0);
-//        softAssert.assertEquals(usertransactionItem.getUserID(), (long) OtherStepDefs.userId, "Incorrect user id");
-//        softAssert.assertEquals(usertransactionItem.getTransactionStatus(), status.getId(),
-//                "Incorrect transaction status!");
-//        softAssert.assertEquals(usertransactionItem.getTxFeeAmount().doubleValue(), (double)DepositStepDefs.requestBody.getFee(),
-//                "Incorrect fee amount!");
-//        softAssert.assertEquals(usertransactionItem.getProviderServiceID(), OtherStepDefs.serviceId,
-//                "Incorrect service id!");
-//        softAssert.assertAll();
-//    }
-
-//    @Then("check core user transaction details, status equals to {string}")
-//    public void checkCoreUserTransactionDetails(String statusStr) {
-//        CoreTransactionStatus status = CoreTransactionStatus.findByName(statusStr);
-//        SoftAssert softAssert = new SoftAssert();
-//        UsertransactionItem usertransactionItem = fetchUsertransactionResponseItem.getTransactions().get(0);
-//        softAssert.assertEquals(usertransactionItem.getUserID(), (long) OtherStepDefs.userId, "Incorrect user id");
-//        softAssert.assertEquals(usertransactionItem.getTransactionStatus(), status.getId(),
-//                "Incorrect transaction status!");
-//        softAssert.assertEquals(usertransactionItem.getProviderServiceID(), OtherStepDefs.serviceId,
-//                "Incorrect service id!");
-//        softAssert.assertAll();
-//    }
 }

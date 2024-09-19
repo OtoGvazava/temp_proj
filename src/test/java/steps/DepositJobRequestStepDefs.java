@@ -1,12 +1,12 @@
 package steps;
 
 import configuration.Configuration;
-import integration.job.DepositJobRequest;
+import ge.singular.payment.api.rest.integration.DepositJobRequest;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.testng.asserts.SoftAssert;
 
-public class DepositJobRequestStepDefs extends BaseStepDefs {
+public class DepositJobRequestStepDefs extends BaseSteps {
     public static DepositJobRequest request;
 
     @Override
@@ -15,12 +15,12 @@ public class DepositJobRequestStepDefs extends BaseStepDefs {
     }
 
     static {
-        request = new DepositJobRequest(Configuration.INTEGRATION_HOST);
+        request = new DepositJobRequest(Configuration.integrationConfig.getHost());
     }
 
     @When("send deposit job request")
     public void sendRequest() {
-        request.request(ConsulStepDefs.consulProperties.getJob().getSecret(),
+        request.request(Configuration.serviceConfig.getJob().getSecret(),
                 1000, -1000).deserialize();
     }
 

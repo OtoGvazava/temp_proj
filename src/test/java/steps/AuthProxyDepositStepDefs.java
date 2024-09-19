@@ -3,13 +3,12 @@ package steps;
 import configuration.Configuration;
 import ge.singular.authproxy.api.AuthProxyDepositRequest;
 import ge.singular.payment.api.rest.integration.DepositRequest;
-import ge.singular.payment.api.rest.integration.payment.DepositRequest;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.testng.Assert;
 
-public class AuthProxyDepositStepDefs extends BaseStepDefs {
+public class AuthProxyDepositStepDefs extends BaseSteps {
     public static AuthProxyDepositRequest request;
     public static DepositRequest.RequestBody requestBody;
 

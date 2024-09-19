@@ -14,6 +14,5 @@ public interface Configuration {
     CommonConfig commonConfig = remoteConfig.read("core-platform-qa/payments/common", CommonConfig.class);
 
     IntegrationConfig integrationConfig = remoteConfig.read("core-platform-qa/payments/integrations/" + localConfig.getProperty("service.name"), IntegrationConfig.class);
-
     ServiceConfig serviceConfig = remoteConfig.read("core-platform/integrations/" + localConfig.getProperty("service.name"), ServiceConfig.class);
 }

@@ -9,7 +9,7 @@ import org.testng.asserts.SoftAssert;
 
 import java.util.Arrays;
 
-public class WithdrawRequestStepDefs extends BaseStepDefs {
+public class WithdrawRequestStepDefs extends BaseSteps {
     public static WithdrawRequest request;
     public static WithdrawRequest.RequestBody requestBody;
 
@@ -28,10 +28,10 @@ public class WithdrawRequestStepDefs extends BaseStepDefs {
         requestBody = WithdrawRequest.RequestBody.builder()
                 .userId(Configuration.integrationConfig.getUserId())
                 .serviceId(Configuration.integrationConfig.getServiceId())
-                .fee(100)
-                .amount(1000)
-                .actions(Arrays.asList(1, 4))
-                .channel(1).build();
+                // here
+                .build();
+
+        throw new RuntimeException("You should add additional params above and remove this code line!");
     }
 
 

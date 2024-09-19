@@ -4,18 +4,11 @@ Feature: Withdraw Job
 
   @Smoke
   Scenario Outline: Process transaction when Core=Success, Sis=Started/AmountWithdrawnFromCoreAccount/Pending/ProviderPending, Provider=Processed
-    Given provider mocked request customer-verification returns response with verificationLevel="10"
-    And provider mocked request pay.pl prepare success
-    And provider mocked request pay.pl transfer success
-    And withdraw request body with action pending
-    When send withdraw request
-    Then withdraw response statusCode=200, code=182, message="TransactionStatusPending"
-    And check withdraw core transaction details in db, status="Pending", fee="true"
-    And check withdraw sis transaction details in db, status="Pending", fee="true"
+    # implement pending withdraw full scenario here for create deposit transaction in system
     Given sis withdraw transaction with status "<SisStatus>", started="false"
     And sis withdraw transaction with status "<SisStatus>", started="true"
     And core withdraw transaction with status "Success"
-    And provider mocked request query.pl transfer status success
+    # add step to mock provider request as returns success status
     When send withdraw job request
     Then withdraw job response statusCode=200, code=10, message="Success"
     And check withdraw core transaction details in db, status="Success", fee="true"
@@ -29,18 +22,11 @@ Feature: Withdraw Job
       | ProviderPending                   |
 
   Scenario Outline: Process transaction when Core=Success, Sis=Started/AmountWithdrawnFromCoreAccount/Pending/ProviderPending, Provider=Failed
-    Given provider mocked request customer-verification returns response with verificationLevel="10"
-    And provider mocked request pay.pl prepare success
-    And provider mocked request pay.pl transfer success
-    And withdraw request body with action pending
-    When send withdraw request
-    Then withdraw response statusCode=200, code=182, message="TransactionStatusPending"
-    And check withdraw core transaction details in db, status="Pending", fee="true"
-    And check withdraw sis transaction details in db, status="Pending", fee="true"
+    # implement pending withdraw full scenario here for create deposit transaction in system
     Given sis withdraw transaction with status "<SisStatus>", started="false"
     And sis withdraw transaction with status "<SisStatus>", started="true"
     And core withdraw transaction with status "Success"
-    And provider mocked request query.pl transfer status failed
+    # add step to mock provider request as returns failed status
     When send withdraw job request
     Then withdraw job response statusCode=200, code=10, message="Success"
     And check withdraw core transaction details in db, status="Rollback", fee="true"
@@ -54,18 +40,11 @@ Feature: Withdraw Job
       | ProviderPending                   |
 
   Scenario Outline: Process transaction when Core=Success, Sis=Started/AmountWithdrawnFromCoreAccount/Pending/ProviderPending, Provider=Pending
-    Given provider mocked request customer-verification returns response with verificationLevel="10"
-    And provider mocked request pay.pl prepare success
-    And provider mocked request pay.pl transfer success
-    And withdraw request body with action pending
-    When send withdraw request
-    Then withdraw response statusCode=200, code=182, message="TransactionStatusPending"
-    And check withdraw core transaction details in db, status="Pending", fee="true"
-    And check withdraw sis transaction details in db, status="Pending", fee="true"
+    # implement pending withdraw full scenario here for create deposit transaction in system
     Given sis withdraw transaction with status "<SisStatus>", started="false"
     And sis withdraw transaction with status "<SisStatus>", started="true"
     And core withdraw transaction with status "Success"
-    And provider mocked request query.pl transfer status pending
+    # add step to mock provider request as returns pending status
     When send withdraw job request
     Then withdraw job response statusCode=200, code=10, message="Success"
     And check withdraw core transaction details in db, status="Success", fee="true"
@@ -78,36 +57,22 @@ Feature: Withdraw Job
       | ProviderPending                   |
 
   Scenario: Process transaction when Core=Success, Sis=AmountWithdrawnFromCoreAccount, Provider=Pending
-    Given provider mocked request customer-verification returns response with verificationLevel="10"
-    And provider mocked request pay.pl prepare success
-    And provider mocked request pay.pl transfer success
-    And withdraw request body with action pending
-    When send withdraw request
-    Then withdraw response statusCode=200, code=182, message="TransactionStatusPending"
-    And check withdraw core transaction details in db, status="Pending", fee="true"
-    And check withdraw sis transaction details in db, status="Pending", fee="true"
+    # implement pending withdraw full scenario here for create deposit transaction in system
     Given sis withdraw transaction with status "AmountWithdrawnFromCoreAccount", started="false"
     And sis withdraw transaction with status "AmountWithdrawnFromCoreAccount", started="true"
     And core withdraw transaction with status "Success"
-    And provider mocked request query.pl transfer status pending
+    # add step to mock provider request as returns pending status
     When send withdraw job request
     Then withdraw job response statusCode=200, code=10, message="Success"
     And check withdraw core transaction details in db, status="Success", fee="true"
     And check withdraw sis transaction details in db, status="AmountWithdrawnFromCoreAccount", fee="true"
 
   Scenario Outline: Process transaction when Core=Success, Sis=Started/AmountWithdrawnFromCoreAccount/Pending, Provider=Unknown
-    Given provider mocked request customer-verification returns response with verificationLevel="10"
-    And provider mocked request pay.pl prepare success
-    And provider mocked request pay.pl transfer success
-    And withdraw request body with action pending
-    When send withdraw request
-    Then withdraw response statusCode=200, code=182, message="TransactionStatusPending"
-    And check withdraw core transaction details in db, status="Pending", fee="true"
-    And check withdraw sis transaction details in db, status="Pending", fee="true"
+    # implement pending withdraw full scenario here for create deposit transaction in system
     Given sis withdraw transaction with status "<SisStatus>", started="false"
     And sis withdraw transaction with status "<SisStatus>", started="true"
     And core withdraw transaction with status "Success"
-    And provider mocked request query.pl transfer returns empty response
+    # add step to mock provider request as returns empty response
     When send withdraw job request
     Then withdraw job response statusCode=200, code=10, message="Success"
     And check withdraw core transaction details in db, status="Success", fee="true"
@@ -121,18 +86,11 @@ Feature: Withdraw Job
       | ProviderPending                   |
 
   Scenario Outline: Process transaction when Core=Success, Sis=Started/AmountWithdrawnFromCoreAccount/Pending, Provider=Timeout
-    Given provider mocked request customer-verification returns response with verificationLevel="10"
-    And provider mocked request pay.pl prepare success
-    And provider mocked request pay.pl transfer success
-    And withdraw request body with action pending
-    When send withdraw request
-    Then withdraw response statusCode=200, code=182, message="TransactionStatusPending"
-    And check withdraw core transaction details in db, status="Pending", fee="true"
-    And check withdraw sis transaction details in db, status="Pending", fee="true"
+    # implement pending withdraw full scenario here for create deposit transaction in system
     Given sis withdraw transaction with status "<SisStatus>", started="false"
     And sis withdraw transaction with status "<SisStatus>", started="true"
     And core withdraw transaction with status "Success"
-    And provider mocked request query.pl transfer timeout
+    # add step to mock provider request as timeout
     When send withdraw job request
     Then withdraw job response statusCode=200, code=10, message="Success"
     And check withdraw core transaction details in db, status="Success", fee="true"
@@ -146,18 +104,11 @@ Feature: Withdraw Job
       | ProviderPending                   |
 
   Scenario Outline: Process transaction when Core=Success, Sis=AmountWithdrawnFromCoreAccount, Provider=Scheduled
-    Given provider mocked request customer-verification returns response with verificationLevel="10"
-    And provider mocked request pay.pl prepare success
-    And provider mocked request pay.pl transfer success
-    And withdraw request body with action pending
-    When send withdraw request
-    Then withdraw response statusCode=200, code=182, message="TransactionStatusPending"
-    And check withdraw core transaction details in db, status="Pending", fee="true"
-    And check withdraw sis transaction details in db, status="Pending", fee="true"
+    # implement pending withdraw full scenario here for create deposit transaction in system
     Given sis withdraw transaction with status "<SisStatus>", started="false"
     And sis withdraw transaction with status "<SisStatus>", started="true"
     And core withdraw transaction with status "Success"
-    And provider mocked request query.pl transfer status scheduled
+    # add step to mock provider request as returns scheduled
     When send withdraw job request
     Then withdraw job response statusCode=200, code=10, message="Success"
     And check withdraw core transaction details in db, status="Success", fee="true"
@@ -168,18 +119,11 @@ Feature: Withdraw Job
       | AmountWithdrawnFromCoreAccount    |
 
   Scenario Outline: Process transaction when Core=Success, Sis=Started/Pending/ProviderPending, Provider=Scheduled
-    Given provider mocked request customer-verification returns response with verificationLevel="10"
-    And provider mocked request pay.pl prepare success
-    And provider mocked request pay.pl transfer success
-    And withdraw request body with action pending
-    When send withdraw request
-    Then withdraw response statusCode=200, code=182, message="TransactionStatusPending"
-    And check withdraw core transaction details in db, status="Pending", fee="true"
-    And check withdraw sis transaction details in db, status="Pending", fee="true"
+    # implement pending withdraw full scenario here for create deposit transaction in system
     Given sis withdraw transaction with status "<SisStatus>", started="false"
     And sis withdraw transaction with status "<SisStatus>", started="true"
     And core withdraw transaction with status "Success"
-    And provider mocked request query.pl transfer status scheduled
+    # add step to mock provider request as returns scheduled
     When send withdraw job request
     Then withdraw job response statusCode=200, code=10, message="Success"
     And check withdraw core transaction details in db, status="Success", fee="true"
@@ -192,18 +136,11 @@ Feature: Withdraw Job
       | ProviderPending                   |
 
   Scenario Outline: Process transaction when Core=Pending, Sis=Started/AmountWithdrawnFromCoreAccount/Pending/ProviderPending, Provider=Processed
-    Given provider mocked request customer-verification returns response with verificationLevel="10"
-    And provider mocked request pay.pl prepare success
-    And provider mocked request pay.pl transfer success
-    And withdraw request body with action pending
-    When send withdraw request
-    Then withdraw response statusCode=200, code=182, message="TransactionStatusPending"
-    And check withdraw core transaction details in db, status="Pending", fee="true"
-    And check withdraw sis transaction details in db, status="Pending", fee="true"
+    # implement pending withdraw full scenario here for create deposit transaction in system
     Given sis withdraw transaction with status "<SisStatus>", started="false"
     And sis withdraw transaction with status "<SisStatus>", started="true"
     And core withdraw transaction with status "Pending"
-    And provider mocked request query.pl transfer status success
+    # add step to mock provider request as returns failed
     When send withdraw job request
     Then withdraw job response statusCode=200, code=10, message="Success"
     And check withdraw core transaction details in db, status="Pending", fee="true"
@@ -217,18 +154,11 @@ Feature: Withdraw Job
       | ProviderPending                   |
 
   Scenario Outline: Process transaction when Core=Pending, Sis=AmountWithdrawnFromCoreAccount/Pending/ProviderPending, Provider=Failed
-    Given provider mocked request customer-verification returns response with verificationLevel="10"
-    And provider mocked request pay.pl prepare success
-    And provider mocked request pay.pl transfer success
-    And withdraw request body with action pending
-    When send withdraw request
-    Then withdraw response statusCode=200, code=182, message="TransactionStatusPending"
-    And check withdraw core transaction details in db, status="Pending", fee="true"
-    And check withdraw sis transaction details in db, status="Pending", fee="true"
+    # implement pending withdraw full scenario here for create deposit transaction in system
     Given sis withdraw transaction with status "<SisStatus>", started="false"
     And sis withdraw transaction with status "<SisStatus>", started="true"
     And core withdraw transaction with status "Pending"
-    And provider mocked request query.pl transfer status failed
+    # add step to mock provider request as returns failed
     When send withdraw job request
     Then withdraw job response statusCode=200, code=10, message="Success"
     And check withdraw core transaction details in db, status="Pending", fee="true"
@@ -241,18 +171,11 @@ Feature: Withdraw Job
       | ProviderPending                   |
 
   Scenario Outline: Process transaction when Core=Approved, Sis=Started/AmountWithdrawnFromCoreAccount/Pending/ProviderPending, Provider=Processed
-    Given provider mocked request customer-verification returns response with verificationLevel="10"
-    And provider mocked request pay.pl prepare success
-    And provider mocked request pay.pl transfer success
-    And withdraw request body with action pending
-    When send withdraw request
-    Then withdraw response statusCode=200, code=182, message="TransactionStatusPending"
-    And check withdraw core transaction details in db, status="Pending", fee="true"
-    And check withdraw sis transaction details in db, status="Pending", fee="true"
+    # implement pending withdraw full scenario here for create deposit transaction in system
     Given sis withdraw transaction with status "<SisStatus>", started="false"
     And sis withdraw transaction with status "<SisStatus>", started="true"
     And core withdraw transaction with status "Approved"
-    And provider mocked request query.pl transfer status success
+    # add step to mock provider request as returns success
     When send withdraw job request
     Then withdraw job response statusCode=200, code=10, message="Success"
     And check withdraw core transaction details in db, status="Approved", fee="true"
@@ -266,18 +189,11 @@ Feature: Withdraw Job
       | ProviderPending                   |
 
   Scenario Outline: Process transaction when Core=Approved, Sis=Started/AmountWithdrawnFromCoreAccount/Pending/ProviderPending, Provider=Processed
-    Given provider mocked request customer-verification returns response with verificationLevel="10"
-    And provider mocked request pay.pl prepare success
-    And provider mocked request pay.pl transfer success
-    And withdraw request body with action pending
-    When send withdraw request
-    Then withdraw response statusCode=200, code=182, message="TransactionStatusPending"
-    And check withdraw core transaction details in db, status="Pending", fee="true"
-    And check withdraw sis transaction details in db, status="Pending", fee="true"
+    # implement pending withdraw full scenario here for create deposit transaction in system
     Given sis withdraw transaction with status "<SisStatus>", started="false"
     And sis withdraw transaction with status "<SisStatus>", started="true"
     And core withdraw transaction with status "Approved"
-    And provider mocked request query.pl transfer status success
+    # add step to mock provider request as returns success
     When send withdraw job request
     Then withdraw job response statusCode=200, code=10, message="Success"
     And check withdraw core transaction details in db, status="Approved", fee="true"
@@ -291,18 +207,11 @@ Feature: Withdraw Job
       | ProviderPending                   |
 
   Scenario Outline: Process transaction when Core=Approved, Sis=Started/AmountWithdrawnFromCoreAccount/Pending/ProviderPending, Provider=Failed
-    Given provider mocked request customer-verification returns response with verificationLevel="10"
-    And provider mocked request pay.pl prepare success
-    And provider mocked request pay.pl transfer success
-    And withdraw request body with action pending
-    When send withdraw request
-    Then withdraw response statusCode=200, code=182, message="TransactionStatusPending"
-    And check withdraw core transaction details in db, status="Pending", fee="true"
-    And check withdraw sis transaction details in db, status="Pending", fee="true"
+    # implement pending withdraw full scenario here for create deposit transaction in system
     Given sis withdraw transaction with status "<SisStatus>", started="false"
     And sis withdraw transaction with status "<SisStatus>", started="true"
     And core withdraw transaction with status "Approved"
-    And provider mocked request query.pl transfer status failed
+    # add step to mock provider request as returns failed
     When send withdraw job request
     Then withdraw job response statusCode=200, code=10, message="Success"
     And check withdraw core transaction details in db, status="Rollback", fee="true"
@@ -316,18 +225,11 @@ Feature: Withdraw Job
       | ProviderPending                   |
 
   Scenario Outline: Process transaction when Core=Rejected, Sis=Started/AmountWithdrawnFromCoreAccount/Pending/ProviderPending, Provider=Processed
-    Given provider mocked request customer-verification returns response with verificationLevel="10"
-    And provider mocked request pay.pl prepare success
-    And provider mocked request pay.pl transfer success
-    And withdraw request body with action pending
-    When send withdraw request
-    Then withdraw response statusCode=200, code=182, message="TransactionStatusPending"
-    And check withdraw core transaction details in db, status="Pending", fee="true"
-    And check withdraw sis transaction details in db, status="Pending", fee="true"
+    # implement pending withdraw full scenario here for create deposit transaction in system
     Given sis withdraw transaction with status "<SisStatus>", started="false"
     And sis withdraw transaction with status "<SisStatus>", started="true"
     And core withdraw transaction with status "Rejected"
-    And provider mocked request query.pl transfer status success
+    # add step to mock provider request as returns success
     When send withdraw job request
     Then withdraw job response statusCode=200, code=10, message="Success"
     And check withdraw core transaction details in db, status="Rejected", fee="true"
@@ -341,18 +243,11 @@ Feature: Withdraw Job
       | ProviderPending                   |
 
   Scenario Outline: Process transaction when Core=Rejected, Sis=Started/Pending, Provider=Failed
-    Given provider mocked request customer-verification returns response with verificationLevel="10"
-    And provider mocked request pay.pl prepare success
-    And provider mocked request pay.pl transfer success
-    And withdraw request body with action pending
-    When send withdraw request
-    Then withdraw response statusCode=200, code=182, message="TransactionStatusPending"
-    And check withdraw core transaction details in db, status="Pending", fee="true"
-    And check withdraw sis transaction details in db, status="Pending", fee="true"
+    # implement pending withdraw full scenario here for create deposit transaction in system
     Given sis withdraw transaction with status "<SisStatus>", started="false"
     And sis withdraw transaction with status "<SisStatus>", started="true"
     And core withdraw transaction with status "Rejected"
-    And provider mocked request query.pl transfer status failed
+    # add step to mock provider request as returns failed
     When send withdraw job request
     Then withdraw job response statusCode=200, code=10, message="Success"
     And check withdraw core transaction details in db, status="Rejected", fee="true"
@@ -364,18 +259,11 @@ Feature: Withdraw Job
       | Pending                           |
 
   Scenario Outline: Process transaction when Core=Rejected, Sis=AmountWithdrawnFromCoreAccount/ProviderPending, Provider=Failed
-    Given provider mocked request customer-verification returns response with verificationLevel="10"
-    And provider mocked request pay.pl prepare success
-    And provider mocked request pay.pl transfer success
-    And withdraw request body with action pending
-    When send withdraw request
-    Then withdraw response statusCode=200, code=182, message="TransactionStatusPending"
-    And check withdraw core transaction details in db, status="Pending", fee="true"
-    And check withdraw sis transaction details in db, status="Pending", fee="true"
+    # implement pending withdraw full scenario here for create deposit transaction in system
     Given sis withdraw transaction with status "<SisStatus>", started="false"
     And sis withdraw transaction with status "<SisStatus>", started="true"
     And core withdraw transaction with status "Rejected"
-    And provider mocked request query.pl transfer status failed
+    # add step to mock provider request as returns failed
     When send withdraw job request
     Then withdraw job response statusCode=200, code=10, message="Success"
     And check withdraw core transaction details in db, status="Rejected", fee="true"
@@ -387,18 +275,11 @@ Feature: Withdraw Job
       | ProviderPending                   |
 
   Scenario Outline: Process transaction when Core=Rejected, Sis=Started/AmountWithdrawnFromCoreAccount/Pending/ProviderPending, Provider=Pending
-    Given provider mocked request customer-verification returns response with verificationLevel="10"
-    And provider mocked request pay.pl prepare success
-    And provider mocked request pay.pl transfer success
-    And withdraw request body with action pending
-    When send withdraw request
-    Then withdraw response statusCode=200, code=182, message="TransactionStatusPending"
-    And check withdraw core transaction details in db, status="Pending", fee="true"
-    And check withdraw sis transaction details in db, status="Pending", fee="true"
+    # implement pending withdraw full scenario here for create deposit transaction in system
     Given sis withdraw transaction with status "<SisStatus>", started="false"
     And sis withdraw transaction with status "<SisStatus>", started="true"
     And core withdraw transaction with status "Rejected"
-    And provider mocked request query.pl transfer status pending
+    # add step to mock provider request as returns pending
     When send withdraw job request
     Then withdraw job response statusCode=200, code=10, message="Success"
     And check withdraw core transaction details in db, status="Rejected", fee="true"
@@ -410,18 +291,11 @@ Feature: Withdraw Job
       | ProviderPending                   |
 
   Scenario Outline: Process transaction when Core=Rejected, Sis=Started/AmountWithdrawnFromCoreAccount/Pending/ProviderPending, Provider=Pending
-    Given provider mocked request customer-verification returns response with verificationLevel="10"
-    And provider mocked request pay.pl prepare success
-    And provider mocked request pay.pl transfer success
-    And withdraw request body with action pending
-    When send withdraw request
-    Then withdraw response statusCode=200, code=182, message="TransactionStatusPending"
-    And check withdraw core transaction details in db, status="Pending", fee="true"
-    And check withdraw sis transaction details in db, status="Pending", fee="true"
+    # implement pending withdraw full scenario here for create deposit transaction in system
     Given sis withdraw transaction with status "<SisStatus>", started="false"
     And sis withdraw transaction with status "<SisStatus>", started="true"
     And core withdraw transaction with status "Rejected"
-    And provider mocked request query.pl transfer status pending
+    # add step to mock provider request as returns success
     When send withdraw job request
     Then withdraw job response statusCode=200, code=10, message="Success"
     And check withdraw core transaction details in db, status="Rejected", fee="true"
@@ -433,18 +307,11 @@ Feature: Withdraw Job
       | Pending                           |
 
   Scenario Outline: Process transaction when Core=Canceled, Sis=Started/AmountWithdrawnFromCoreAccount/Pending/ProviderPending, Provider=Processed
-    Given provider mocked request customer-verification returns response with verificationLevel="10"
-    And provider mocked request pay.pl prepare success
-    And provider mocked request pay.pl transfer success
-    And withdraw request body with action pending
-    When send withdraw request
-    Then withdraw response statusCode=200, code=182, message="TransactionStatusPending"
-    And check withdraw core transaction details in db, status="Pending", fee="true"
-    And check withdraw sis transaction details in db, status="Pending", fee="true"
+    # implement pending withdraw full scenario here for create deposit transaction in system
     Given sis withdraw transaction with status "<SisStatus>", started="false"
     And sis withdraw transaction with status "<SisStatus>", started="true"
     And core withdraw transaction with status "Canceled"
-    And provider mocked request query.pl transfer status success
+    # add step to mock provider request as returns success
     When send withdraw job request
     Then withdraw job response statusCode=200, code=10, message="Success"
     And check withdraw core transaction details in db, status="Canceled", fee="true"
@@ -458,18 +325,11 @@ Feature: Withdraw Job
       | ProviderPending                   |
 
   Scenario Outline: Process transaction when Core=Canceled, Sis=Started/AmountWithdrawnFromCoreAccount/Pending/ProviderPending, Provider=Failed
-    Given provider mocked request customer-verification returns response with verificationLevel="10"
-    And provider mocked request pay.pl prepare success
-    And provider mocked request pay.pl transfer success
-    And withdraw request body with action pending
-    When send withdraw request
-    Then withdraw response statusCode=200, code=182, message="TransactionStatusPending"
-    And check withdraw core transaction details in db, status="Pending", fee="true"
-    And check withdraw sis transaction details in db, status="Pending", fee="true"
+    # implement pending withdraw full scenario here for create deposit transaction in system
     Given sis withdraw transaction with status "<SisStatus>", started="false"
     And sis withdraw transaction with status "<SisStatus>", started="true"
     And core withdraw transaction with status "Canceled"
-    And provider mocked request query.pl transfer status failed
+    # add step to mock provider request as returns failed
     When send withdraw job request
     Then withdraw job response statusCode=200, code=10, message="Success"
     And check withdraw core transaction details in db, status="Canceled", fee="true"
@@ -481,18 +341,11 @@ Feature: Withdraw Job
       | Pending                           |
 
   Scenario Outline: Process transaction when Core=Canceled, Sis=Started/AmountWithdrawnFromCoreAccount/Pending/ProviderPending, Provider=Failed
-    Given provider mocked request customer-verification returns response with verificationLevel="10"
-    And provider mocked request pay.pl prepare success
-    And provider mocked request pay.pl transfer success
-    And withdraw request body with action pending
-    When send withdraw request
-    Then withdraw response statusCode=200, code=182, message="TransactionStatusPending"
-    And check withdraw core transaction details in db, status="Pending", fee="true"
-    And check withdraw sis transaction details in db, status="Pending", fee="true"
+    # implement pending withdraw full scenario here for create deposit transaction in system
     Given sis withdraw transaction with status "<SisStatus>", started="false"
     And sis withdraw transaction with status "<SisStatus>", started="true"
     And core withdraw transaction with status "Canceled"
-    And provider mocked request query.pl transfer status failed
+    # add step to mock provider request as returns failed
     When send withdraw job request
     Then withdraw job response statusCode=200, code=10, message="Success"
     And check withdraw core transaction details in db, status="Canceled", fee="true"
@@ -504,18 +357,11 @@ Feature: Withdraw Job
       | ProviderPending                   |
 
   Scenario Outline: Process transaction when Core=Canceled, Sis=Started/AmountWithdrawnFromCoreAccount/Pending/ProviderPending, Provider=Pending
-    Given provider mocked request customer-verification returns response with verificationLevel="10"
-    And provider mocked request pay.pl prepare success
-    And provider mocked request pay.pl transfer success
-    And withdraw request body with action pending
-    When send withdraw request
-    Then withdraw response statusCode=200, code=182, message="TransactionStatusPending"
-    And check withdraw core transaction details in db, status="Pending", fee="true"
-    And check withdraw sis transaction details in db, status="Pending", fee="true"
+    # implement pending withdraw full scenario here for create deposit transaction in system
     Given sis withdraw transaction with status "<SisStatus>", started="false"
     And sis withdraw transaction with status "<SisStatus>", started="true"
     And core withdraw transaction with status "Canceled"
-    And provider mocked request query.pl transfer status pending
+    # add step to mock provider request as returns pending
     When send withdraw job request
     Then withdraw job response statusCode=200, code=10, message="Success"
     And check withdraw core transaction details in db, status="Canceled", fee="true"
@@ -527,18 +373,11 @@ Feature: Withdraw Job
       | Pending                           |
 
   Scenario Outline: Process transaction when Core=Canceled, Sis=Started/AmountWithdrawnFromCoreAccount/Pending/ProviderPending, Provider=Pending
-    Given provider mocked request customer-verification returns response with verificationLevel="10"
-    And provider mocked request pay.pl prepare success
-    And provider mocked request pay.pl transfer success
-    And withdraw request body with action pending
-    When send withdraw request
-    Then withdraw response statusCode=200, code=182, message="TransactionStatusPending"
-    And check withdraw core transaction details in db, status="Pending", fee="true"
-    And check withdraw sis transaction details in db, status="Pending", fee="true"
+    # implement pending withdraw full scenario here for create deposit transaction in system
     Given sis withdraw transaction with status "<SisStatus>", started="false"
     And sis withdraw transaction with status "<SisStatus>", started="true"
     And core withdraw transaction with status "Canceled"
-    And provider mocked request query.pl transfer status pending
+    # add step to mock provider request as returns pending
     When send withdraw job request
     Then withdraw job response statusCode=200, code=10, message="Success"
     And check withdraw core transaction details in db, status="Canceled", fee="true"
@@ -550,18 +389,11 @@ Feature: Withdraw Job
       | ProviderPending                   |
 
   Scenario Outline: Process transaction when Core=Success, Sis=Started/AmountWithdrawnFromCoreAccount/Pending/ProviderPending, Provider=NotFound
-    Given provider mocked request customer-verification returns response with verificationLevel="10"
-    And provider mocked request pay.pl prepare success
-    And provider mocked request pay.pl transfer success
-    And withdraw request body with action pending
-    When send withdraw request
-    Then withdraw response statusCode=200, code=182, message="TransactionStatusPending"
-    And check withdraw core transaction details in db, status="Pending", fee="true"
-    And check withdraw sis transaction details in db, status="Pending", fee="true"
+    # implement pending withdraw full scenario here for create deposit transaction in system
     Given sis withdraw transaction with status "<SisStatus>", started="false"
     And sis withdraw transaction with status "<SisStatus>", started="true"
     And core withdraw transaction with status "Success"
-    And provider mocked request query.pl transfer status not found
+    # add step to mock provider request as not found request
     When send withdraw job request
     Then withdraw job response statusCode=200, code=10, message="Success"
     And check withdraw core transaction details in db, status="Rollback", fee="true"

@@ -2,16 +2,16 @@ package steps;
 
 
 import configuration.Configuration;
-import integration.transactions.StatusCheckRequest;
+import ge.singular.payment.api.rest.integration.StatusCheckRequest;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.testng.asserts.SoftAssert;
 
-public class StatusCheckRequestStepDefs extends BaseStepDefs {
+public class StatusCheckRequestStepDefs extends BaseSteps {
     public static StatusCheckRequest request;
 
     static {
-        request = new StatusCheckRequest(Configuration.INTEGRATION_HOST);
+        request = new StatusCheckRequest(Configuration.integrationConfig.getHost());
     }
 
     @Override

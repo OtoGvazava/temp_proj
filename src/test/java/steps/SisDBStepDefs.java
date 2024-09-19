@@ -1,5 +1,6 @@
 package steps;
 
+import configuration.Configuration;
 import ge.singular.payment.data.SisTransactionStatus;
 import ge.singular.payment.data.SisTransactionType;
 import ge.singular.payment.db.SisPaymentsDB;
@@ -9,11 +10,13 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import lombok.SneakyThrows;
 
-public class SisDBStepDefs extends BaseStepDefs {
+public class SisDBStepDefs extends BaseSteps {
     private final SisPaymentsDB sisPaymentsDB;
 
     public SisDBStepDefs() {
-        sisPaymentsDB = new SisPaymentsDB(SIS_PAYMENTS_DATABASE_SERVER, DATABASE_USERNAME, DATABASE_PASSWORD);
+        sisPaymentsDB = new SisPaymentsDB(Configuration.commonConfig.getDb().getRuleEngine().getHost() + ":" + Configuration.commonConfig.getDb().getRuleEngine().getPort(),
+                Configuration.commonConfig.getDb().getRuleEngine().getUsername(),
+                Configuration.commonConfig.getDb().getRuleEngine().getPassword());
     }
 
     @Override
@@ -35,7 +38,7 @@ public class SisDBStepDefs extends BaseStepDefs {
                         .paymentAccount(WithdrawRequestStepDefs.requestBody.getAccount())
                         .currency(WithdrawRequestStepDefs.requestBody.getCurrency())
                         .serviceID(WithdrawRequestStepDefs.requestBody.getServiceId())
-                        .providerLabel(PROVIDER_LABEL)
+                        .providerLabel(Configuration.integrationConfig.getProviderLabel())
                         .build()
         );
     }
@@ -62,7 +65,7 @@ public class SisDBStepDefs extends BaseStepDefs {
                         .paymentAccount(paymentAccount)
                         .currency(DepositRequestStepDefs.requestBody.getCurrency())
                         .serviceID(DepositRequestStepDefs.requestBody.getServiceId())
-                        .providerLabel(PROVIDER_LABEL)
+                        .providerLabel(Configuration.integrationConfig.getProviderLabel())
                         .build()
         );
     }
@@ -90,6 +93,6 @@ public class SisDBStepDefs extends BaseStepDefs {
 
     @Given("empty started transactions table for the user")
     public void deleteStartedTransactions() {
-        this.sisPaymentsDB.deleteTransactionsBy(OtherStepDefs.userId);
+        this.sisPaymentsDB.deleteTransactionsBy(Configuration.integrationConfig.getUserId());
     }
 }

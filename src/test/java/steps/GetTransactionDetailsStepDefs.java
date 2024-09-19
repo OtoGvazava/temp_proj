@@ -1,16 +1,16 @@
 package steps;
 
 import configuration.Configuration;
-import ge.singular.payment.api.rest.integration.payment.GetTransactionDetailsRequest;
+import ge.singular.payment.api.rest.integration.GetTransactionDetailsRequest;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 
-public class GetTransactionDetailsStepDefs extends BaseStepDefs {
+public class GetTransactionDetailsStepDefs extends BaseSteps {
     public static GetTransactionDetailsRequest request;
     public static GetTransactionDetailsRequest.RequestBody requestBody;
 
     static {
-        request = new GetTransactionDetailsRequest(Configuration.INTEGRATION_HOST);
+        request = new GetTransactionDetailsRequest(Configuration.integrationConfig.getHost());
     }
 
     @Override
@@ -23,11 +23,11 @@ public class GetTransactionDetailsStepDefs extends BaseStepDefs {
     public void getRequestBody() {
         requestBody = GetTransactionDetailsRequest.RequestBody.builder()
                 .transactionId(DepositRequestStepDefs.request.getResponseBody().getData().getTransactionId().toString())
-                .userId(OtherStepDefs.userId).build();
+                .userId(Configuration.integrationConfig.getUserId()).build();
     }
 
     @When("send get transaction request")
     public void sendRequest() {
-        request.request(requestBody, Configuration.PROXY_CLIENT_IP, Configuration.PROXY_AUTH_SECRET);
+        request.request(requestBody, Configuration.commonConfig.getProxyClientIp(), Configuration.commonConfig.getProxyAuthSecret());
     }
 }

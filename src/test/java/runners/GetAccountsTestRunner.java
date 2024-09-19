@@ -5,7 +5,7 @@ import io.cucumber.testng.CucumberOptions;
 
 
 @CucumberOptions(
-        features = {"src/test/java/features/skrill_getaccounts.feature"},
+        features = {"src/test/java/features/getaccounts.feature"},
         glue = "step_defs",
         plugin = {"pretty", "json:target/cucumber-report.json"}
 )

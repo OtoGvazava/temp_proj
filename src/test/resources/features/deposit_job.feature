@@ -1,35 +1,22 @@
 Feature: Deposit Job
 
   Background:
-    Given consul properties
-    And user id
-    And provider id
-    And service id
     And user with status "Verified"
     And empty started transactions table for the user
 
   Scenario Outline: Process deposit transactions with different statuses in Core/Persistence/Provider
-    And provider mocked request customer-verification returns response with verificationLevel="10"
-    And ruleEngine validation passed
-    And deposit request body
-    When send deposit request
-    Then deposit response statusCode=200, code=10, message="Success"
-    And check deposit response data parameters
-    And check deposit sis transaction details in db, status="ProviderPending", fee="true"
-    Given deposit callback request params with status Success
-    When send deposit callback request
-    Then deposit callback response statusCode=200, code=10, message="Success"
-    And check deposit core transaction details in db, status="Success", fee="false"
-    And check deposit sis transaction details in db, status="Finished", fee="false"
+    # implement deposit full scenario here for create deposit transaction in system
     Given sis deposit transaction with status "<SisStatusBefore>", started="false"
     And the deposit transaction exists in started_transactions table
     And sis deposit transaction with status "<SisStatusBefore>", started="true"
-    And provider mocked request query.pl transfer status "<ProviderStatus>"
     And core deposit transaction with status "<CoreStatusBefore>"
+    # add step to mock provider request to return status with value 'ProviderStatus'
     When send deposit job request
     Then deposit job response statusCode=200, code=10, message="Success"
     And check deposit core transaction details in db, status="<CoreStatusAfter>", fee="false"
     And check deposit sis transaction details in db, status="<SisStatusAfter>", fee="false"
+
+    # ProviderStatus is status from provider side this variable should be used to mock provider request and return such status
 
     Examples:
       | ProviderStatus | SisStatusBefore                   | CoreStatusBefore | SisStatusAfter                    | CoreStatusAfter |
@@ -63,6 +50,8 @@ Feature: Deposit Job
       | Success        | Pending                           | Canceled         | StartRollback                     | Canceled        |
       | Success        | Pending                           | Approved         | Finished                          | Approved        |
 
+      # ProviderStatus (Success/Failed) is status from provider side this variable should be used to mock provider request and return such status
+
       | Failed         | Started                           | Success          | Started                           | Success         |
       | Failed         | Started                           | Pending          | Started                           | Pending         |
       | Failed         | Started                           | Rejected         | Started                           | Rejected        |
@@ -93,83 +82,12 @@ Feature: Deposit Job
       | Failed         | Pending                           | Canceled         | StartRollback                     | Canceled        |
       | Failed         | Pending                           | Approved         | StartRollback                     | Approved        |
 
-      | Pending        | Started                           | Success          | Started                           | Success         |
-      | Pending        | Started                           | Pending          | Started                           | Pending         |
-      | Pending        | Started                           | Rejected         | Started                           | Rejected        |
-      | Pending        | Started                           | Canceled         | Started                           | Canceled        |
-      | Pending        | Started                           | Approved         | Started                           | Approved        |
-
-      | Pending        | AmountWithdrawFromProviderAccount | Success          | AmountWithdrawFromProviderAccount | Success         |
-      | Pending        | AmountWithdrawFromProviderAccount | Pending          | AmountWithdrawFromProviderAccount | Pending         |
-      | Pending        | AmountWithdrawFromProviderAccount | Rejected         | AmountWithdrawFromProviderAccount | Rejected        |
-      | Pending        | AmountWithdrawFromProviderAccount | Canceled         | AmountWithdrawFromProviderAccount | Canceled        |
-      | Pending        | AmountWithdrawFromProviderAccount | Approved         | AmountWithdrawFromProviderAccount | Approved        |
-
-      | Pending        | StartRollback                     | Success          | StartRollback                     | Success         |
-      | Pending        | StartRollback                     | Pending          | StartRollback                     | Pending         |
-      | Pending        | StartRollback                     | Rejected         | StartRollback                     | Rejected        |
-      | Pending        | StartRollback                     | Canceled         | StartRollback                     | Canceled        |
-      | Pending        | StartRollback                     | Approved         | StartRollback                     | Approved        |
-
-      | Pending        | ProviderPending                   | Success          | ProviderPending                   | Success         |
-      | Pending        | ProviderPending                   | Pending          | ProviderPending                   | Pending         |
-      | Pending        | ProviderPending                   | Rejected         | ProviderPending                   | Rejected        |
-      | Pending        | ProviderPending                   | Canceled         | ProviderPending                   | Canceled        |
-      | Pending        | ProviderPending                   | Approved         | ProviderPending                   | Approved        |
-
-      | Pending        | Pending                           | Success          | Pending                           | Success         |
-      | Pending        | Pending                           | Pending          | Pending                           | Pending         |
-      | Pending        | Pending                           | Rejected         | StartRollback                     | Rejected        |
-      | Pending        | Pending                           | Canceled         | StartRollback                     | Canceled        |
-      | Pending        | Pending                           | Approved         | Pending                           | Approved        |
-
-      | Scheduled      | Started                           | Success          | Started                           | Success         |
-      | Scheduled      | Started                           | Pending          | Started                           | Pending         |
-      | Scheduled      | Started                           | Rejected         | Started                           | Rejected        |
-      | Scheduled      | Started                           | Canceled         | Started                           | Canceled        |
-      | Scheduled      | Started                           | Approved         | Started                           | Approved        |
-
-      | Scheduled      | AmountWithdrawFromProviderAccount | Success          | AmountWithdrawFromProviderAccount | Success         |
-      | Scheduled      | AmountWithdrawFromProviderAccount | Pending          | AmountWithdrawFromProviderAccount | Pending         |
-      | Scheduled      | AmountWithdrawFromProviderAccount | Rejected         | AmountWithdrawFromProviderAccount | Rejected        |
-      | Scheduled      | AmountWithdrawFromProviderAccount | Canceled         | AmountWithdrawFromProviderAccount | Canceled        |
-      | Scheduled      | AmountWithdrawFromProviderAccount | Approved         | AmountWithdrawFromProviderAccount | Approved        |
-
-      | Scheduled      | StartRollback                     | Success          | StartRollback                     | Success         |
-      | Scheduled      | StartRollback                     | Pending          | StartRollback                     | Pending         |
-      | Scheduled      | StartRollback                     | Rejected         | StartRollback                     | Rejected        |
-      | Scheduled      | StartRollback                     | Canceled         | StartRollback                     | Canceled        |
-      | Scheduled      | StartRollback                     | Approved         | StartRollback                     | Approved        |
-
-      | Scheduled      | ProviderPending                   | Success          | ProviderPending                   | Success         |
-      | Scheduled      | ProviderPending                   | Pending          | ProviderPending                   | Pending         |
-      | Scheduled      | ProviderPending                   | Rejected         | ProviderPending                   | Rejected        |
-      | Scheduled      | ProviderPending                   | Canceled         | ProviderPending                   | Canceled        |
-      | Scheduled      | ProviderPending                   | Approved         | ProviderPending                   | Approved        |
-
-      | Scheduled      | Pending                           | Success          | Pending                           | Success         |
-      | Scheduled      | Pending                           | Pending          | Pending                           | Pending         |
-      | Scheduled      | Pending                           | Rejected         | StartRollback                     | Rejected        |
-      | Scheduled      | Pending                           | Canceled         | StartRollback                     | Canceled        |
-      | Scheduled      | Pending                           | Approved         | Pending                           | Approved        |
-
   Scenario Outline: Process deposit transactions when in provider not found
-    And provider mocked request customer-verification returns response with verificationLevel="10"
-    And ruleEngine validation passed
-    And deposit request body
-    When send deposit request
-    Then deposit response statusCode=200, code=10, message="Success"
-    And check deposit response data parameters
-    And check deposit sis transaction details in db, status="ProviderPending", fee="true"
-    Given deposit callback request params with status Success
-    When send deposit callback request
-    Then deposit callback response statusCode=200, code=10, message="Success"
-    And check deposit core transaction details in db, status="Success", fee="false"
-    And check deposit sis transaction details in db, status="Finished", fee="false"
+    # implement deposit full scenario here for create deposit transaction in system
     Given sis deposit transaction with status "<SisStatusBefore>", started="false"
     And the deposit transaction exists in started_transactions table
     And sis deposit transaction with status "<SisStatusBefore>", started="true"
-    And provider mocked request query.pl transfer status not found
+    # add step to mock provider request as not found request
     And core deposit transaction with status "<CoreStatusBefore>"
     When send deposit job request
     Then deposit job response statusCode=200, code=10, message="Success"
@@ -185,23 +103,17 @@ Feature: Deposit Job
       | Pending                           | Success          | Pending                           | Success         |
 
   Scenario Outline: Process deposit transactions when in core not found
-    And provider mocked request customer-verification returns response with verificationLevel="10"
-    And ruleEngine validation passed
-    And deposit request body
-    When send deposit request
-    Then deposit response statusCode=200, code=10, message="Success"
-    And check deposit response data parameters
-    And check deposit sis transaction details in db, status="ProviderPending", fee="true"
+    # implement deposit scenario (not include CALLBACK) here for create deposit transaction in system
     Given sis deposit transaction with status "<SisStatusBefore>", started="false"
-    And provider mocked request query.pl transfer status "<ProviderStatus>"
+    # add step to mock provider request to return status with value 'ProviderStatus'
     When send deposit job request
     Then deposit job response statusCode=200, code=10, message="Success"
     And check deposit sis transaction details in db, status="<SisStatusAfter>", fee="false"
 
     Examples:
-      | ProviderStatus | SisStatusBefore   | SisStatusAfter |
-      | Success        | Started           | StartRollback  |
-      | Success        | Started           | ProviderPending  |
-      | Success        | Started           | Pending  |
+      | ProviderStatus | SisStatusBefore   | SisStatusAfter  |
+      | Success        | Started           | StartRollback   |
+      | Success        | Started           | ProviderPending |
+      | Success        | Started           | Pending         |
       | Success        | Started           | AmountWithdrawFromProviderAccount  |
-      | Success        | Started           | Started  |
+      | Success        | Started           | Started         |
