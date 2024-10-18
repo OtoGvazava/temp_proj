@@ -10,7 +10,7 @@ import org.testng.Assert;
 
 public class AuthProxyInitDepositStepDefs extends BaseSteps {
     public static AuthProxyInitDepositRequest request;
-    public static InitDepositRequest.RequestBody requestBody;
+    public static AuthProxyInitDepositRequest.RequestBody requestBody;
 
     static {
         request = new AuthProxyInitDepositRequest(Configuration.commonConfig.getAuthProxyApi());
@@ -24,7 +24,7 @@ public class AuthProxyInitDepositStepDefs extends BaseSteps {
 
     @Given("auth proxy init deposit request body")
     public void getRequestBody() {
-        requestBody = InitDepositRequest.RequestBody.builder()
+        requestBody = AuthProxyInitDepositRequest.RequestBody.builder()
                 .serviceName(Configuration.integrationConfig.getServiceName())
                 .serviceId(Configuration.integrationConfig.getServiceId())
                 // need to add additional params

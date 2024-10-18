@@ -2,7 +2,6 @@ package steps;
 
 import configuration.Configuration;
 import ge.singular.authproxy.api.AuthProxyDepositRequest;
-import ge.singular.payment.api.rest.integration.DepositRequest;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -10,7 +9,7 @@ import org.testng.Assert;
 
 public class AuthProxyDepositStepDefs extends BaseSteps {
     public static AuthProxyDepositRequest request;
-    public static DepositRequest.RequestBody requestBody;
+    public static AuthProxyDepositRequest.RequestBody requestBody;
 
     static {
         request = new AuthProxyDepositRequest(Configuration.commonConfig.getAuthProxyApi());
@@ -24,7 +23,7 @@ public class AuthProxyDepositStepDefs extends BaseSteps {
 
     @Given("auth proxy deposit request body")
     public void getRequestBody() {
-        requestBody = DepositRequest.RequestBody.builder()
+        requestBody = AuthProxyDepositRequest.RequestBody.builder()
                 .serviceName(Configuration.integrationConfig.getServiceName())
                 .serviceId(AuthProxyInitDepositStepDefs.requestBody.getServiceId())
                 // You need to add some other params here

@@ -2,7 +2,6 @@ package steps;
 
 import configuration.Configuration;
 import ge.singular.authproxy.api.AuthProxyGetPaymentAccountsRequest;
-import ge.singular.payment.api.rest.integration.GetAccountsRequest;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -10,7 +9,7 @@ import org.testng.Assert;
 
 public class AuthProxyGetPaymentAccountsStepDefs extends BaseSteps {
     public static AuthProxyGetPaymentAccountsRequest request;
-    public static GetAccountsRequest.RequestBody requestBody;
+    public static AuthProxyGetPaymentAccountsRequest.RequestBody requestBody;
 
     static {
         request = new AuthProxyGetPaymentAccountsRequest(Configuration.commonConfig.getAuthProxyApi());
@@ -24,7 +23,7 @@ public class AuthProxyGetPaymentAccountsStepDefs extends BaseSteps {
 
     @Given("auth proxy get payment accounts request body")
     public void getRequestBody() {
-        requestBody = GetAccountsRequest.RequestBody.builder()
+        requestBody = AuthProxyGetPaymentAccountsRequest.RequestBody.builder()
                 .serviceName(Configuration.integrationConfig.getServiceName())
                 .serviceId(Configuration.integrationConfig.getServiceId())
                 .isRecurring(false).build();

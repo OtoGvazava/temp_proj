@@ -13,7 +13,7 @@
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <!-- versions -->
-        <test_auto.pay_library.version>1.4</test_auto.pay_library.version>
+        <test_auto.pay_library.version>1.5</test_auto.pay_library.version>
         <cucumber-testng.version>7.14.0</cucumber-testng.version>
         <cucumber-java.version>7.14.1</cucumber-java.version>
         <lombok.version>1.18.30</lombok.version>

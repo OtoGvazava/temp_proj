@@ -10,7 +10,7 @@ import org.testng.Assert;
 
 public class AuthProxyInitWithdrawStepDefs extends BaseSteps {
     public static AuthProxyInitWithdrawRequest request;
-    public static InitWithdrawRequest.RequestBody requestBody;
+    public static AuthProxyInitWithdrawRequest.RequestBody requestBody;
 
     static {
         request = new AuthProxyInitWithdrawRequest(Configuration.commonConfig.getAuthProxyApi());
@@ -24,7 +24,7 @@ public class AuthProxyInitWithdrawStepDefs extends BaseSteps {
 
     @Given("auth proxy init withdraw request body")
     public void getRequestBody() {
-        requestBody = InitWithdrawRequest.RequestBody.builder()
+        requestBody = AuthProxyInitWithdrawRequest.RequestBody.builder()
                 .serviceName(Configuration.integrationConfig.getServiceName())
                 .serviceId(Configuration.integrationConfig.getServiceId())
                 // here

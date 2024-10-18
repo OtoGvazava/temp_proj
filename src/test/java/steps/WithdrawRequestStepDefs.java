@@ -7,7 +7,6 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.testng.asserts.SoftAssert;
 
-import java.util.Arrays;
 
 public class WithdrawRequestStepDefs extends BaseSteps {
     public static WithdrawRequest request;

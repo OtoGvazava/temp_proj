@@ -10,7 +10,7 @@ import org.testng.Assert;
 
 public class AuthProxyGetTransactionDetailsStepDefs extends BaseSteps {
     public static AuthProxyGetTransactionDetails request;
-    public static GetTransactionDetailsRequest.RequestBody requestBody;
+    public static AuthProxyGetTransactionDetails.RequestBody requestBody;
 
     static {
         request = new AuthProxyGetTransactionDetails(Configuration.commonConfig.getAuthProxyApi());
@@ -24,7 +24,7 @@ public class AuthProxyGetTransactionDetailsStepDefs extends BaseSteps {
 
     @Given("auth proxy get transaction details request body")
     public void getRequestBody() {
-        requestBody = GetTransactionDetailsRequest.RequestBody.builder()
+        requestBody = AuthProxyGetTransactionDetails.RequestBody.builder()
                 .serviceName(Configuration.integrationConfig.getServiceName())
                 .transactionId(AuthProxyDepositStepDefs.request.getResponseBody().getData().getTransactionId().toString())
                 .userId(Configuration.integrationConfig.getUserId()).build();

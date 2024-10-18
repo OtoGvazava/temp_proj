@@ -2,7 +2,6 @@ package steps;
 
 import configuration.Configuration;
 import ge.singular.authproxy.api.AuthProxyWithdrawRequest;
-import ge.singular.payment.api.rest.integration.WithdrawRequest;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -10,7 +9,7 @@ import org.testng.Assert;
 
 public class AuthProxyWithdrawStepDefs extends BaseSteps {
     public static AuthProxyWithdrawRequest request;
-    public static WithdrawRequest.RequestBody requestBody;
+    public static AuthProxyWithdrawRequest.RequestBody requestBody;
 
     static {
         request = new AuthProxyWithdrawRequest(Configuration.commonConfig.getAuthProxyApi());
@@ -24,7 +23,7 @@ public class AuthProxyWithdrawStepDefs extends BaseSteps {
 
     @Given("auth proxy withdraw request body")
     public void getRequestBody() {
-        requestBody = WithdrawRequest.RequestBody.builder()
+        requestBody = AuthProxyWithdrawRequest.RequestBody.builder()
                 .serviceName(Configuration.integrationConfig.getServiceName())
                 .serviceId(AuthProxyInitWithdrawStepDefs.requestBody.getServiceId())
                 // here
