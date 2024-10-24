@@ -93,7 +93,7 @@
                     <cloud>false</cloud>
                     <jiraBaseUrl>https://jira.pyrsoftware.ca/jira</jiraBaseUrl>
                     <projectKey>SNGPAY</projectKey>
-                    <jiraToken>NjEzNjc4MDQ0MzA4OgDWBaHsPKeMUqa/kBRx7wc/zq/8</jiraToken>
+
                     <reportFormat>cucumber</reportFormat>
                     <reportFile>target/*-report.json</reportFile>
                 </configuration>
